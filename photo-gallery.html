@@ -28,7 +28,9 @@
 
       .photo img {
         width: 100%;
+        height: 100%;
         display: block;
+        object-fit: cover;
       }
 
       .favorite-button {
@@ -72,9 +74,16 @@
 
       <div class="gallery" v-else>
         <!-- List Rendering and Conditional Class Binding -->
-        <div class="photo">
+        <div class="photo" v-for="(photo, index) in photos" :key="photo.id">
+          <img :src="photo.url" :alt="photo.id" @click="removePhoto(index)" />
           <!-- An image goes here -->
-          <button class="favorite-button">★</button>
+          <button
+            class="favorite-button"
+            :class="{'active': photo.isFavorite}"
+            @click="toggleFavorite(photo)"
+          >
+            ★
+          </button>
         </div>
       </div>
     </div>
@@ -95,19 +104,27 @@
               url: newPhotoUrl.value,
               isFavorite: false,
             };
-            if (newPhotoUrl !== "") {
+            if (newPhotoUrl.value !== "") {
               photos.value.push(photo);
               newPhotoUrl.value = "";
             }
           };
-          const toggleFavorite = () => {
+
+          const toggleFavorite = (photo) => {
             // Favorite toggling logic
+            photo.isFavorite = !photo.isFavorite;
+          };
+
+          const removePhoto = (index) => {
+            photos.value.splice(index, 1);
           };
 
           return {
             addPhoto,
             photos,
             newPhotoUrl,
+            toggleFavorite,
+            removePhoto,
           };
         },
       };
