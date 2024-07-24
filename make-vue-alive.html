@@ -28,6 +28,8 @@
   <body>
     <div id="app">
       <div>{{message}}</div>
+      <label for="age">Enter your age:</label>
+      <input type="number" name="age" v-model="age" />
       <div>
         Are you fit to Drive?
         <span :class="{can: canDrive == 'Yes', 'can-not': canDrive == 'No' }"
@@ -40,24 +42,18 @@
 
       let message = ref("Hello!");
       let age = ref(null);
-      let drunk = ref(false);
 
       let canDrive = computed(() => {
         console.log("computed");
         return age.value >= 18 ? "Yes" : "No";
       });
 
-      setTimeout(() => {
-        console.log("changed");
-        message.value = "Bye!";
-        age.value = 26;
-      }, 5000);
-
       const App = {
         setup() {
           return {
             message,
             canDrive,
+            age,
           };
         },
       };
