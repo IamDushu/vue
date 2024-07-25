@@ -114,14 +114,7 @@
 
       const App = {
         setup() {
-          const tasks = ref([
-            {
-              id: 1,
-              description: "Buy groceries",
-              priority: "Low",
-              done: false,
-            },
-          ]);
+          const tasks = ref(JSON.parse(localStorage.getItem("tasks") ?? "[]"));
           const newTaskInput = ref(null);
           const newTask = ref("");
           const newPriority = ref("");
@@ -144,22 +137,22 @@
             newTaskInput.value.focus();
           });
 
-          watch(
-            newTask,
-            (newValue, oldValue) => {
-              console.log(`New Value is ${newValue}, old was ${oldValue}`);
-            },
-            { immediate: true }
-          );
+          // watch(
+          //   newTask,
+          //   (newValue, oldValue) => {
+          //     console.log(`New Value is ${newValue}, old was ${oldValue}`);
+          //   },
+          //   { immediate: true }
+          // );
 
-          watchEffect(() => {
-            console.log(`New task input is ${newTask.value}`);
-          });
+          // watchEffect(() => {
+          //   console.log(`New task input is ${newTask.value}`);
+          // });
 
           watch(
             tasks,
             () => {
-              console.log("Tasks has changed");
+              localStorage.setItem("tasks", JSON.stringify(tasks.value));
             },
             { deep: true } //if we want it to track changes in array/ properties in object etc.
           );
