@@ -102,7 +102,15 @@
     </div>
 
     <script>
-      const { createApp, onMounted, onBeforeMount, ref, computed, watch } = Vue;
+      const {
+        createApp,
+        onMounted,
+        onBeforeMount,
+        ref,
+        computed,
+        watch,
+        watchEffect,
+      } = Vue;
 
       const App = {
         setup() {
@@ -136,8 +144,16 @@
             newTaskInput.value.focus();
           });
 
-          watch(newTask, (newValue, oldValue) => {
-            console.log(`New Value is ${newValue}, old was ${oldValue}`);
+          watch(
+            newTask,
+            (newValue, oldValue) => {
+              console.log(`New Value is ${newValue}, old was ${oldValue}`);
+            },
+            { immediate: true }
+          );
+
+          watchEffect(() => {
+            console.log(`New task input is ${newTask.value}`);
           });
 
           watch(
