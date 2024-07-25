@@ -57,10 +57,14 @@
 
   <body>
     <div id="app">
-      <form>
+      <form @submit.prevent="addTask">
         <!-- Adding tasks form -->
-        <input ref="newTaskInput" placeholder="Add new task" />
-        <select>
+        <input
+          ref="newTaskInput"
+          placeholder="Add new task"
+          v-model="newTask"
+        />
+        <select v-model="newPriority">
           <option disabled value="">Select priority</option>
           <option>High</option>
           <option>Medium</option>
@@ -87,9 +91,9 @@
         >
           <div>
             <!-- Is task done? -->
-            <input type="checkbox" v-model="task.id" />
+            <input type="checkbox" v-model="task.done" />
             <!-- Task description -->
-            <span>{{task.description}}</span>
+            <span style="margin-left: 10px">{{task.description}}</span>
           </div>
           <!-- Removing a task -->
           <button class="remove-button">✖</button>
@@ -98,7 +102,7 @@
     </div>
 
     <script>
-      const { createApp, onMounted, onBeforeMount, ref } = Vue;
+      const { createApp, onMounted, onBeforeMount, ref, computed } = Vue;
 
       const App = {
         setup() {
@@ -111,17 +115,33 @@
             },
           ]);
           const newTaskInput = ref(null);
+          const newTask = ref("");
+          const newPriority = ref("");
+
+          const addTask = () => {
+            if (newTask.value !== "" && newPriority.value !== "") {
+              tasks.value.unshift({
+                id: tasks.value.length + 1,
+                description: newTask.value,
+                priority: newPriority.value,
+                done: false,
+              });
+
+              newTask.value = "";
+              newPriority.value = "";
+            }
+          };
 
           onMounted(() => {
             newTaskInput.value.focus();
           });
 
-          onBeforeMount(() => {
-            console.log("before mounted!");
-          });
           return {
             newTaskInput,
             tasks,
+            newTask,
+            newPriority,
+            addTask,
           };
         },
       };
