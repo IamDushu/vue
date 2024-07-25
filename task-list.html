@@ -102,7 +102,7 @@
     </div>
 
     <script>
-      const { createApp, onMounted, onBeforeMount, ref, computed } = Vue;
+      const { createApp, onMounted, onBeforeMount, ref, computed, watch } = Vue;
 
       const App = {
         setup() {
@@ -135,6 +135,18 @@
           onMounted(() => {
             newTaskInput.value.focus();
           });
+
+          watch(newTask, (newValue, oldValue) => {
+            console.log(`New Value is ${newValue}, old was ${oldValue}`);
+          });
+
+          watch(
+            tasks,
+            () => {
+              console.log("Tasks has changed");
+            },
+            { deep: true } //if we want it to track changes in array/ properties in object etc.
+          );
 
           return {
             newTaskInput,
