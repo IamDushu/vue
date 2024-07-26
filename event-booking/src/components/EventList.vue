@@ -4,8 +4,9 @@ import EventCard from '@/components/EventCard.vue'
 import LoadingEventCard from '@/components/LoadingEventCard.vue'
 import SectionCard from '@/components/SectionCard.vue'
 import RoundButton from '@/components/RoundButton.vue'
+import useBookings from '@/composables/useBookings.js'
 
-defineEmits(['register'])
+const {handleRegistration} = useBookings()
 
 const events = ref([])
 const loading = ref(false)
@@ -48,7 +49,7 @@ onMounted(() => {
             <template v-if="events.length">
               <EventCard v-for="event in events" :key="event.id"
                          :title="event.title" :when="event.date" :description="event.description"
-                         @register="$emit('register', event)"
+                         @register="handleRegistration(event)"
               />
             </template>
             <template v-else>
