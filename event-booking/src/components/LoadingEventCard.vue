@@ -1,6 +1,6 @@
 
 <template>
-   <RoundedCard class="bg-gray-300 animate-pulse">
+   <RoundedCard class="bg-gray-400 animate-pulse">
      <div class="p-4 border-b border-gray-200 h-14">
      </div>
      <div class="p-4 border-b border-gray-200 h-14" >

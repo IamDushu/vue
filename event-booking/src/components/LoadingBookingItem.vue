@@ -1,5 +1,5 @@
 <template>
-  <SectionCard class="animate-pulse bg-gray-300">
+  <SectionCard class="animate-pulse bg-gray-400">
     <div class="flex justify-end">
       <div class="w-20 h-7 bg-gray-200 rounded-full"></div>
     </div>
