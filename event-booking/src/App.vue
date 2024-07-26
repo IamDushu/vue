@@ -10,6 +10,10 @@ const bookings = ref([])
 const eventsLoading = ref(false)
 const bookingsLoading = ref(false)
 
+const findBookingById = (id) => {
+  return bookings.value.findIndex(booking => booking.id === id)
+}
+
 const fetchEvents = async () => {
   eventsLoading.value = true
   try {
@@ -55,7 +59,7 @@ const handleRegistration = async (event) => {
     })
 
       if (response.ok) {
-        const index = bookings.value.findIndex(booking => booking.id === newBooking.id)
+        const index = findBookingById(newBooking.id)
         bookings.value[index] = await response.json()
       } else {
         throw new Error('Failed to confirm booking')
@@ -65,6 +69,25 @@ const handleRegistration = async (event) => {
       bookings.value = bookings.value.filter(booking => booking.id !== newBooking.id)
   }
 
+}
+
+const cancelBooking = async (bookingId) => {
+  const index = findBookingById(bookingId)
+  const originalBooking = bookings.value[index]
+  bookings.value.splice(index, 1)
+
+  try {
+    const response = await fetch(`http://localhost:3001/bookings/${bookingId}`, {
+      method: 'DELETE',
+    })
+
+    if (!response.ok) {
+      throw new Error('Booking could not be cancelled.')
+    }
+  } catch (e) {
+    console.log('Failed to delete booking: ', e)
+    bookings.value.splice(index, 0, originalBooking)
+  }
 }
 
 onMounted(() => {
@@ -95,7 +118,10 @@ onMounted(() => {
         <h2 class="text-2xl font-medium">Your Bookings</h2>
         <section class="grid grid-cols-1 gap-4">
           <template v-if="!bookingsLoading && bookings.length > 0">
-            <BookingItem v-for="booking in bookings" :title="booking.eventTitle" :status="booking.status" :key="booking.id" />
+            <BookingItem v-for="booking in bookings"
+                         :title="booking.eventTitle" :status="booking.status" :key="booking.id"
+                         @cancelled="cancelBooking(booking.id)"
+            />
           </template>
           <template v-else-if="!bookingsLoading">
             <p class="text-xs text-gray-900">No bookings to show. Register for an event.</p>
