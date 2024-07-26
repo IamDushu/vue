@@ -1,27 +1,14 @@
 <script setup>
-import EventCard from '@/components/EventCard.vue'
 import BookingItem from '@/components/BookingItem.vue'
 import { ref, onMounted } from 'vue'
-import LoadingEventCard from '@/components/LoadingEventCard.vue'
 import LoadingBookingItem from '@/components/LoadingBookingItem.vue'
+import EventList from '@/components/EventList.vue'
 
-const events = ref([])
 const bookings = ref([])
-const eventsLoading = ref(false)
 const bookingsLoading = ref(false)
 
 const findBookingById = (id) => {
   return bookings.value.findIndex(booking => booking.id === id)
-}
-
-const fetchEvents = async () => {
-  eventsLoading.value = true
-  try {
-    const response = await fetch('http://localhost:3001/events')
-    events.value = await response.json()
-  } finally {
-    eventsLoading.value = false
-  }
 }
 
 const fetchBookings = async () => {
@@ -29,7 +16,6 @@ const fetchBookings = async () => {
   try {
     const response = await fetch('http://localhost:3001/bookings')
     bookings.value = await response.json()
-    console.log(bookings.value)
   } finally {
     bookingsLoading.value = false
   }
@@ -91,7 +77,6 @@ const cancelBooking = async (bookingId) => {
 }
 
 onMounted(() => {
-  fetchEvents()
   fetchBookings()
 })
 </script>
@@ -100,20 +85,7 @@ onMounted(() => {
   <main class="container px-4 mx-auto my-8 space-y-8">
     <h1 class="text-4xl font-medium">Event Booking App</h1>
     <section class="flex flex-col lg:flex-row gap-4">
-      <div class="space-y-8 lg:w-2/3">
-        <h2 class="text-2xl font-medium">All Events</h2>
-        <section class="grid grid-cols-2 lg:grid-cols-3 gap-8">
-          <template v-if="!eventsLoading">
-            <EventCard v-for="event in events" :key="event.id"
-                       :title="event.title" :when="event.date" :description="event.description"
-                       @register="handleRegistration(event)"
-            />
-          </template>
-          <template v-else>
-            <LoadingEventCard v-for="i in 4" :key="i" />
-          </template>
-        </section>
-      </div>
+      <EventList @register="handleRegistration($event)" />
       <div class="space-y-8 lg:w-1/3 border-dashed border-[2px] p-4 rounded-md">
         <h2 class="text-2xl font-medium">Your Bookings</h2>
         <section class="grid grid-cols-1 gap-4">
