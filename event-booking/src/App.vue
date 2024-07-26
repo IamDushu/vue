@@ -17,6 +17,21 @@ const fetchEvents = async () => {
   }
 }
 
+const handleRegistration = async (event) => {
+  const newBooking = {
+    id: Date.now().toString(),
+    userId: 1,
+    eventId: event.id,
+    eventTitle: event.title,
+  }
+
+  await fetch('http://localhost:3001/bookings', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({...newBooking, status: 'confirmed'}),
+  })
+}
+
 onMounted(() => fetchEvents())
 </script>
 
@@ -28,7 +43,7 @@ onMounted(() => fetchEvents())
       <template v-if="!eventsLoading">
         <EventCard v-for="event in events" :key="event.id"
                    :title="event.title" :when="event.date" :description="event.description"
-                   @register="console.log('Registered!')"
+                   @register="handleRegistration(event)"
         />
       </template>
       <template v-else>
