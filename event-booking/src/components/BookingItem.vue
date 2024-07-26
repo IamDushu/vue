@@ -1,14 +1,16 @@
 <script setup>
-import RoundedCard from '@/components/RoundedCard.vue'
 import RoundButton from '@/components/RoundButton.vue'
+import SectionCard from '@/components/SectionCard.vue'
 </script>
 
 <template>
-  <RoundedCard>
-    <div class="flex justify-between p-3">
-      <p>Rails Conference 2021 - Status:</p>
-      <RoundButton>Cancel</RoundButton>
+  <SectionCard>
+    <div class="flex justify-between">
+      <div>
+        Booking to Vue Conference
+      </div>
+      <RoundButton variant="danger">Cancel</RoundButton>
     </div>
-  </RoundedCard>
+  </SectionCard>
 </template>
 
