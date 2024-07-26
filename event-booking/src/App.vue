@@ -36,23 +36,29 @@ onMounted(() => fetchEvents())
 </script>
 
 <template>
-  <main class="container mx-auto my-8 space-y-8">
+  <main class="container px-4 mx-auto my-8 space-y-8">
     <h1 class="text-4xl font-medium">Event Booking App</h1>
-    <h2 class="text-2xl font-medium">All Events</h2>
-    <section class="grid grid-cols-2 lg:grid-cols-3 gap-8">
-      <template v-if="!eventsLoading">
-        <EventCard v-for="event in events" :key="event.id"
-                   :title="event.title" :when="event.date" :description="event.description"
-                   @register="handleRegistration(event)"
-        />
-      </template>
-      <template v-else>
-        <LoadingEventCard v-for="i in 4" :key="i" />
-      </template>
-    </section>
-    <h2 class="text-2xl font-medium">Your Bookings</h2>
-    <section class="grid grid-cols-1 gap-4">
-      <BookingItem v-for="i in 3" :key="i" />
+    <section class="flex flex-col lg:flex-row gap-4">
+      <div class="space-y-8 lg:w-2/3">
+        <h2 class="text-2xl font-medium">All Events</h2>
+        <section class="grid grid-cols-2 lg:grid-cols-3 gap-8">
+          <template v-if="!eventsLoading">
+            <EventCard v-for="event in events" :key="event.id"
+                       :title="event.title" :when="event.date" :description="event.description"
+                       @register="handleRegistration(event)"
+            />
+          </template>
+          <template v-else>
+            <LoadingEventCard v-for="i in 4" :key="i" />
+          </template>
+        </section>
+      </div>
+      <div class="space-y-8 lg:w-1/3">
+        <h2 class="text-2xl font-medium">Your Bookings</h2>
+        <section class="grid grid-cols-1 gap-4">
+          <BookingItem v-for="i in 3" :key="i" />
+        </section>
+      </div>
     </section>
   </main>
 </template>
