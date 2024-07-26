@@ -31,24 +31,17 @@
   ],
   "bookings": [
     {
-      "id": "1721998165659",
+      "id": "1722009450551",
       "userId": 1,
       "eventId": "2",
       "eventTitle": "Vue Conference 2023",
       "status": "confirmed"
     },
     {
-      "id": "1722000285152",
+      "id": "1722009458772",
       "userId": 1,
       "eventId": "3",
       "eventTitle": "PHP Conference 2022",
-      "status": "confirmed"
-    },
-    {
-      "id": "1722000658052",
-      "userId": 1,
-      "eventId": "4",
-      "eventTitle": "Rust Conference 2021",
       "status": "confirmed"
     }
   ]
